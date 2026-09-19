@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+set -e
+
+# ZUGZWANG Application Startup Script
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BACKEND_DIR="$PROJECT_ROOT/backend"
+FRONTEND_DIR="$PROJECT_ROOT/frontend"
+
+echo "=========================================================="
+echo "               ZUGZWANG CHESS ANALYSIS SYSTEM             "
+echo "=========================================================="
+
+# 1. Check & setup backend virtual environment
+if [ ! -d "$BACKEND_DIR/venv" ]; then
+    echo "[+] Creating Python virtual environment in backend/venv..."
+    python3 -m venv "$BACKEND_DIR/venv"
+    echo "[+] Installing backend dependencies..."
+    "$BACKEND_DIR/venv/bin/pip" install -r "$BACKEND_DIR/requirements.txt"
+fi
+
+# 2. Check & setup frontend dependencies
+if [ ! -d "$FRONTEND_DIR/node_modules" ]; then
+    echo "[+] Installing frontend node_modules..."
+    (cd "$FRONTEND_DIR" && npm install)
+fi
+
+# Cleanup child processes on exit
+cleanup() {
+    echo ""
+    echo "[!] Stopping Zugzwang services..."
+    if [ -n "$BACKEND_PID" ]; then
+        kill "$BACKEND_PID" 2>/dev/null || true
+    fi
+    if [ -n "$FRONTEND_PID" ]; then
+        kill "$FRONTEND_PID" 2>/dev/null || true
+    fi
+    echo "[+] Zugzwang shutdown complete."
+    exit 0
+}
+
+trap cleanup SIGINT SIGTERM EXIT
+
+# 3. Start Backend FastAPI Server
+echo "[+] Starting FastAPI Backend Server on http://localhost:8000 ..."
+(cd "$BACKEND_DIR" && PYTHONPATH=. ./venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000 --reload) &
+BACKEND_PID=$!
+
+# Wait briefly for backend server to boot
+sleep 2
+
+# 4. Start Frontend Vite Server
+echo "[+] Starting Vite Frontend Server on http://localhost:3000 ..."
+(cd "$FRONTEND_DIR" && npm run dev) &
+FRONTEND_PID=$!
+
+echo ""
+echo "[✓] Zugzwang Application is running!"
+echo "    - Frontend URL: http://localhost:3000"
+echo "    - Backend REST API: http://localhost:8000/api"
+echo "    - Interactive API Docs: http://localhost:8000/docs"
+echo "    Press Ctrl+C to terminate all services."
+echo "=========================================================="
+
+wait

@@ -1,0 +1,225 @@
+/* ZUGZWANG BRUTALIST DESIGN SYSTEM WITH ANIMATIONS */
+
+:root {
+  --bg-main: #0a0a0a;
+  --bg-card: #141414;
+  --bg-card-hover: #1e1e1e;
+  --border-color: #333333;
+  --border-thick: 3px solid #ffffff;
+  --border-subtle: 2px solid #333333;
+  --text-main: #ffffff;
+  --text-muted: #888888;
+  --accent-green: #00ff66;
+  --accent-red: #ff3366;
+  --accent-yellow: #ffff00;
+  --accent-blue: #00e5ff;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-sans: 'Space Grotesk', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border-radius: 0 !important; /* Strict brutalist zero roundness */
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-mono);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+}
+
+code, pre, .mono {
+  font-family: var(--font-mono);
+}
+
+/* Brutalist Block Cards */
+.b-card {
+  background-color: var(--bg-card);
+  border: var(--border-subtle);
+  padding: 1.5rem;
+  box-shadow: 4px 4px 0px #000000;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.b-card:hover {
+  border-color: #666666;
+  transform: translateY(-2px);
+  box-shadow: 6px 6px 0px #000000;
+}
+
+.b-card-thick {
+  border: var(--border-thick);
+  box-shadow: 6px 6px 0px #000000;
+}
+
+/* Brutalist Buttons */
+.b-btn {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.6rem 1.2rem;
+  background-color: #ffffff;
+  color: #000000;
+  border: 2px solid #ffffff;
+  cursor: pointer;
+  box-shadow: 3px 3px 0px #000000;
+  transition: all 0.12s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.b-btn:hover {
+  background-color: var(--accent-green);
+  border-color: var(--accent-green);
+  color: #000000;
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0px #000000;
+}
+
+.b-btn:active {
+  transform: translate(0px, 0px);
+  box-shadow: 1px 1px 0px #000000;
+}
+
+.b-btn-outline {
+  background-color: transparent;
+  color: var(--text-main);
+  border: 2px solid var(--border-color);
+}
+
+.b-btn-outline:hover {
+  border-color: #ffffff;
+  color: #ffffff;
+  background-color: #1f1f1f;
+}
+
+/* Input Fields */
+.b-input {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+  background-color: #000000;
+  color: #ffffff;
+  border: 2px solid var(--border-color);
+  outline: none;
+  width: 100%;
+}
+
+.b-input:focus {
+  border-color: var(--accent-green);
+  box-shadow: 3px 3px 0px var(--accent-green);
+}
+
+/* Chess.com Move Annotation Symbol Badges */
+.symbol-brilliant {
+  background-color: #00e5ff;
+  color: #000000;
+  border: 1px solid #ffffff;
+  font-weight: 900;
+  box-shadow: 0 0 8px rgba(0, 229, 255, 0.6);
+}
+
+.symbol-great {
+  background-color: #00ff66;
+  color: #000000;
+  border: 1px solid #ffffff;
+  font-weight: 900;
+}
+
+.symbol-best {
+  background-color: #00cc55;
+  color: #000000;
+  border: 1px solid #00ff66;
+  font-weight: 800;
+}
+
+.symbol-good {
+  background-color: #aadd00;
+  color: #000000;
+  border: 1px solid #aadd00;
+}
+
+.symbol-inaccuracy {
+  background-color: #ffff00;
+  color: #000000;
+  border: 1px solid #ffff00;
+}
+
+.symbol-mistake {
+  background-color: #ff9900;
+  color: #000000;
+  border: 1px solid #ff9900;
+}
+
+.symbol-blunder {
+  background-color: #ff3366;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+  font-weight: 900;
+  box-shadow: 0 0 10px rgba(255, 51, 102, 0.7);
+}
+
+/* Animations */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 5px rgba(0, 255, 104, 0.2); }
+  50% { box-shadow: 0 0 20px rgba(0, 255, 104, 0.6); }
+  100% { box-shadow: 0 0 5px rgba(0, 255, 104, 0.2); }
+}
+
+@keyframes floatMascot {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0px); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+.animate-mascot {
+  animation: floatMascot 3s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: pulseGlow 2s infinite;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+::-webkit-scrollbar-thumb {
+  background: #333333;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555555;
+}
